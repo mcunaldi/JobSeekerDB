@@ -1,0 +1,762 @@
+USE [master]
+GO
+/****** Object:  Database [JobSeekerDb]    Script Date: 10.10.2023 19:45:33 ******/
+CREATE DATABASE [JobSeekerDb]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'JobSeekerDb', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\JobSeekerDb.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'JobSeekerDb_log', FILENAME = N'C:\Program Files\Microsoft SQL Server\MSSQL16.SQLEXPRESS\MSSQL\DATA\JobSeekerDb_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT, LEDGER = OFF
+GO
+ALTER DATABASE [JobSeekerDb] SET COMPATIBILITY_LEVEL = 160
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [JobSeekerDb].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [JobSeekerDb] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [JobSeekerDb] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [JobSeekerDb] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [JobSeekerDb] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [JobSeekerDb] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [JobSeekerDb] SET  MULTI_USER 
+GO
+ALTER DATABASE [JobSeekerDb] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [JobSeekerDb] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [JobSeekerDb] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [JobSeekerDb] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [JobSeekerDb] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [JobSeekerDb] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [JobSeekerDb] SET QUERY_STORE = ON
+GO
+ALTER DATABASE [JobSeekerDb] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP_POLICY = (STALE_QUERY_THRESHOLD_DAYS = 30), DATA_FLUSH_INTERVAL_SECONDS = 900, INTERVAL_LENGTH_MINUTES = 60, MAX_STORAGE_SIZE_MB = 1000, QUERY_CAPTURE_MODE = AUTO, SIZE_BASED_CLEANUP_MODE = AUTO, MAX_PLANS_PER_QUERY = 200, WAIT_STATS_CAPTURE_MODE = ON)
+GO
+USE [JobSeekerDb]
+GO
+/****** Object:  Table [dbo].[Accounts]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Accounts](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Email] [varchar](max) NULL,
+	[LanguageId] [int] NULL,
+	[CommunicationPreferences] [bit] NULL,
+ CONSTRAINT [PK_Accounts] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CivilStatus]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CivilStatus](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Statu] [varchar](50) NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsDeleted1] [bit] NOT NULL,
+ CONSTRAINT [PK_CivilStatus] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Closings]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Closings](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Content] [varchar](max) NULL,
+	[IsActive] [bit] NULL,
+	[IsDeleted] [bit] NULL,
+ CONSTRAINT [PK_Closings] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Courses]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Courses](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Course] [varchar](max) NULL,
+	[Period] [datetime] NULL,
+	[Description] [varchar](max) NULL,
+ CONSTRAINT [PK_Courses] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CoverLetters]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CoverLetters](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PersonalDetailsId] [uniqueidentifier] NULL,
+	[Recipient] [varchar](max) NULL,
+	[Date] [datetime] NULL,
+	[Subject] [varchar](max) NULL,
+	[IntroductionId] [int] NULL,
+	[CurrentSitutionId] [int] NULL,
+	[MotivationId] [int] NULL,
+	[ClosingId] [int] NULL,
+	[Attachments] [varchar](max) NULL,
+	[CustomParagraph] [varchar](max) NULL,
+ CONSTRAINT [PK_CoverLetters] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[CurrentSituation]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[CurrentSituation](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Content] [varchar](max) NULL,
+	[IsActive] [bit] NULL,
+	[IsDeleted] [bit] NULL,
+ CONSTRAINT [PK_CurrentSituation] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Dashbords]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Dashbords](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ResumeId] [int] NULL,
+	[IsActive] [bit] NULL,
+	[IsDeleted] [bit] NULL,
+ CONSTRAINT [PK_Dashbords] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Educations]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Educations](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Education] [varchar](max) NULL,
+	[School] [varchar](max) NULL,
+	[City] [varchar](max) NULL,
+	[StartDate] [datetime] NULL,
+	[EndDate] [datetime] NULL,
+	[Description] [varchar](max) NULL,
+	[Present] [bit] NULL,
+ CONSTRAINT [PK_Educations] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Employments]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Employments](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Position] [varchar](max) NULL,
+	[Employer] [varchar](max) NULL,
+	[City] [varchar](max) NULL,
+	[StartDate] [datetime] NULL,
+	[EndDate] [datetime] NULL,
+	[Description] [varchar](max) NULL,
+	[Present] [bit] NULL,
+ CONSTRAINT [PK_Employments] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[ExtracurricularActivities]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[ExtracurricularActivities](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Position] [varchar](max) NULL,
+	[Employer] [varchar](max) NULL,
+	[City] [varchar](max) NULL,
+	[StartDate] [datetime] NULL,
+	[EndDate] [datetime] NULL,
+	[Description] [varchar](max) NULL,
+ CONSTRAINT [PK_ExtracurricularActivities] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Genders]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Genders](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Gender] [varchar](50) NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_Genders] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Introductions]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Introductions](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Content] [varchar](max) NULL,
+	[IsActive] [bit] NULL,
+	[IsDeleted] [bit] NULL,
+ CONSTRAINT [PK_Introductions] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Languages]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Languages](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](max) NOT NULL,
+	[IsConfirm] [bit] NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_Language] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Logins]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Logins](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Email] [varchar](max) NULL,
+	[Name] [varchar](max) NULL,
+	[LastName] [varchar](max) NULL,
+	[PasswordSalt] [varbinary](max) NULL,
+	[PasswordHash] [varbinary](max) NULL,
+ CONSTRAINT [PK_Logins] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Month]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Month](
+	[Id] [datetime] NOT NULL,
+	[Month] [varchar](max) NULL,
+ CONSTRAINT [PK_Month] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Motivations]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Motivations](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Content] [varchar](max) NULL,
+	[IsActive] [bit] NULL,
+	[IsDeleted] [bit] NULL,
+ CONSTRAINT [PK_Motivations] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[PersonalDetails]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[PersonalDetails](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Name] [varchar](max) NULL,
+	[Lastname] [varchar](max) NULL,
+	[PhoneNumber] [int] NULL,
+	[Adress] [varchar](max) NULL,
+	[PostCode] [int] NULL,
+	[City] [varchar](max) NULL,
+	[RecipientId] [int] NULL,
+ CONSTRAINT [PK_PersonalDetails] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Profiles]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Profiles](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[PersonalDetailId] [uniqueidentifier] NULL,
+	[SignatureId] [uniqueidentifier] NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+	[ProfilPictureUrl] [varchar](max) NULL,
+ CONSTRAINT [PK_Profiles] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Recipients]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Recipients](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Content] [varchar](max) NULL,
+	[Organization] [varchar](max) NULL,
+	[Address] [varchar](max) NULL,
+	[Post Code] [int] NULL,
+ CONSTRAINT [PK_Recipients] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Resumes]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Resumes](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProfileId] [int] NULL,
+	[DateOfBirth] [datetime] NULL,
+	[PlaceOfBirth] [datetime] NULL,
+	[DriversLicense] [varchar](max) NULL,
+	[GenderId] [int] NULL,
+	[Nationality] [varchar](max) NULL,
+	[CivilStatuId] [int] NULL,
+	[Website] [varchar](max) NULL,
+	[Linkedin] [varchar](max) NULL,
+	[CustomField] [varchar](max) NULL,
+	[EducationId] [int] NULL,
+	[EmploymentId] [int] NULL,
+	[SkillId] [int] NULL,
+	[LanguageId] [int] NULL,
+	[SignatureId] [uniqueidentifier] NULL,
+	[Hobbies] [varchar](max) NULL,
+	[CourseId] [int] NULL,
+	[ExtracurricularActivitieId] [int] NULL,
+	[LoginId] [uniqueidentifier] NOT NULL,
+ CONSTRAINT [PK_Resumes] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Settings]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Settings](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[ProfileId] [int] NULL,
+	[AccountId] [int] NULL,
+	[IsActive] [bit] NOT NULL,
+	[IsDeleted] [bit] NOT NULL,
+ CONSTRAINT [PK_Settings] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Signatures]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Signatures](
+	[Id] [uniqueidentifier] NOT NULL,
+	[Draw] [uniqueidentifier] NULL,
+	[Type] [uniqueidentifier] NULL,
+	[Upload] [uniqueidentifier] NULL,
+	[IsActive] [bit] NULL,
+	[IsDeleted] [bit] NULL,
+ CONSTRAINT [PK_Signatures] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Skills]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Skills](
+	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[Level] [varchar](max) NULL,
+ CONSTRAINT [PK_Skills] PRIMARY KEY CLUSTERED 
+(
+	[Id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Years]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Years](
+	[Id] [nchar](10) NULL
+) ON [PRIMARY]
+GO
+ALTER TABLE [dbo].[Accounts]  WITH CHECK ADD  CONSTRAINT [FK_Accounts_Languages] FOREIGN KEY([LanguageId])
+REFERENCES [dbo].[Languages] ([Id])
+GO
+ALTER TABLE [dbo].[Accounts] CHECK CONSTRAINT [FK_Accounts_Languages]
+GO
+ALTER TABLE [dbo].[Courses]  WITH CHECK ADD  CONSTRAINT [FK_Courses_Month] FOREIGN KEY([Period])
+REFERENCES [dbo].[Month] ([Id])
+GO
+ALTER TABLE [dbo].[Courses] CHECK CONSTRAINT [FK_Courses_Month]
+GO
+ALTER TABLE [dbo].[CoverLetters]  WITH CHECK ADD  CONSTRAINT [FK_CoverLetters_Closings] FOREIGN KEY([ClosingId])
+REFERENCES [dbo].[Closings] ([Id])
+GO
+ALTER TABLE [dbo].[CoverLetters] CHECK CONSTRAINT [FK_CoverLetters_Closings]
+GO
+ALTER TABLE [dbo].[CoverLetters]  WITH CHECK ADD  CONSTRAINT [FK_CoverLetters_CurrentSituation] FOREIGN KEY([CurrentSitutionId])
+REFERENCES [dbo].[CurrentSituation] ([Id])
+GO
+ALTER TABLE [dbo].[CoverLetters] CHECK CONSTRAINT [FK_CoverLetters_CurrentSituation]
+GO
+ALTER TABLE [dbo].[CoverLetters]  WITH CHECK ADD  CONSTRAINT [FK_CoverLetters_Introductions] FOREIGN KEY([IntroductionId])
+REFERENCES [dbo].[Introductions] ([Id])
+GO
+ALTER TABLE [dbo].[CoverLetters] CHECK CONSTRAINT [FK_CoverLetters_Introductions]
+GO
+ALTER TABLE [dbo].[CoverLetters]  WITH CHECK ADD  CONSTRAINT [FK_CoverLetters_Motivations] FOREIGN KEY([MotivationId])
+REFERENCES [dbo].[Motivations] ([Id])
+GO
+ALTER TABLE [dbo].[CoverLetters] CHECK CONSTRAINT [FK_CoverLetters_Motivations]
+GO
+ALTER TABLE [dbo].[CoverLetters]  WITH CHECK ADD  CONSTRAINT [FK_CoverLetters_PersonalDetails] FOREIGN KEY([PersonalDetailsId])
+REFERENCES [dbo].[PersonalDetails] ([Id])
+GO
+ALTER TABLE [dbo].[CoverLetters] CHECK CONSTRAINT [FK_CoverLetters_PersonalDetails]
+GO
+ALTER TABLE [dbo].[Dashbords]  WITH CHECK ADD  CONSTRAINT [FK_Dashbords_Resumes] FOREIGN KEY([ResumeId])
+REFERENCES [dbo].[Resumes] ([Id])
+GO
+ALTER TABLE [dbo].[Dashbords] CHECK CONSTRAINT [FK_Dashbords_Resumes]
+GO
+ALTER TABLE [dbo].[PersonalDetails]  WITH CHECK ADD  CONSTRAINT [FK_PersonalDetails_Recipients] FOREIGN KEY([RecipientId])
+REFERENCES [dbo].[Recipients] ([Id])
+GO
+ALTER TABLE [dbo].[PersonalDetails] CHECK CONSTRAINT [FK_PersonalDetails_Recipients]
+GO
+ALTER TABLE [dbo].[Profiles]  WITH CHECK ADD  CONSTRAINT [FK_Profiles_PersonalDetails] FOREIGN KEY([PersonalDetailId])
+REFERENCES [dbo].[PersonalDetails] ([Id])
+GO
+ALTER TABLE [dbo].[Profiles] CHECK CONSTRAINT [FK_Profiles_PersonalDetails]
+GO
+ALTER TABLE [dbo].[Profiles]  WITH CHECK ADD  CONSTRAINT [FK_Profiles_Signatures] FOREIGN KEY([SignatureId])
+REFERENCES [dbo].[Signatures] ([Id])
+GO
+ALTER TABLE [dbo].[Profiles] CHECK CONSTRAINT [FK_Profiles_Signatures]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_CivilStatus] FOREIGN KEY([CivilStatuId])
+REFERENCES [dbo].[CivilStatus] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_CivilStatus]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Courses] FOREIGN KEY([CourseId])
+REFERENCES [dbo].[Courses] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Courses]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Educations] FOREIGN KEY([EducationId])
+REFERENCES [dbo].[Educations] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Educations]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Employments] FOREIGN KEY([EmploymentId])
+REFERENCES [dbo].[Employments] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Employments]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_ExtracurricularActivities] FOREIGN KEY([ExtracurricularActivitieId])
+REFERENCES [dbo].[ExtracurricularActivities] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_ExtracurricularActivities]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Genders] FOREIGN KEY([GenderId])
+REFERENCES [dbo].[Genders] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Genders]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Languages] FOREIGN KEY([LanguageId])
+REFERENCES [dbo].[Languages] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Languages]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Logins] FOREIGN KEY([LoginId])
+REFERENCES [dbo].[Logins] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Logins]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Profiles] FOREIGN KEY([ProfileId])
+REFERENCES [dbo].[Profiles] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Profiles]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Signatures] FOREIGN KEY([SignatureId])
+REFERENCES [dbo].[Signatures] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Signatures]
+GO
+ALTER TABLE [dbo].[Resumes]  WITH CHECK ADD  CONSTRAINT [FK_Resumes_Skills] FOREIGN KEY([SkillId])
+REFERENCES [dbo].[Skills] ([Id])
+GO
+ALTER TABLE [dbo].[Resumes] CHECK CONSTRAINT [FK_Resumes_Skills]
+GO
+ALTER TABLE [dbo].[Settings]  WITH CHECK ADD  CONSTRAINT [FK_Settings_Accounts] FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Accounts] ([Id])
+GO
+ALTER TABLE [dbo].[Settings] CHECK CONSTRAINT [FK_Settings_Accounts]
+GO
+ALTER TABLE [dbo].[Settings]  WITH CHECK ADD  CONSTRAINT [FK_Settings_Accounts1] FOREIGN KEY([AccountId])
+REFERENCES [dbo].[Accounts] ([Id])
+GO
+ALTER TABLE [dbo].[Settings] CHECK CONSTRAINT [FK_Settings_Accounts1]
+GO
+ALTER TABLE [dbo].[Settings]  WITH CHECK ADD  CONSTRAINT [FK_Settings_Profiles] FOREIGN KEY([ProfileId])
+REFERENCES [dbo].[Profiles] ([Id])
+GO
+ALTER TABLE [dbo].[Settings] CHECK CONSTRAINT [FK_Settings_Profiles]
+GO
+/****** Object:  StoredProcedure [dbo].[ChangePassword]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[ChangePassword]
+
+@Email VARCHAR(MAX),
+@CurrentPassword VARCHAR(MAX),
+@NewPassword VARCHAR(MAX)
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+	--Mail adresini kontrol ediyoruz.
+	IF NOT EXISTS (SELECT 1 FROM Logins WHERE Email = @Email)
+	BEGIN
+		RAISERROR('Böyle bir kullanıcı bulunamadı!',16,1);
+		RETURN;
+	END
+
+	--Mevcut şifremizi doğru girip girmediğimizi kontrol ediyoruz.
+	
+	DECLARE @Salt VARBINARY(MAX) = (SELECT TOP 1 PasswordSalt FROM Logins WHERE Email = @Email)
+	DECLARE @Hash VARBINARY(MAX) = (SELECT TOP 1 PasswordHash FROM Logins WHERE Email = @Email)
+
+	DECLARE @CurrentPasswordHash VARBINARY(MAX) =  HASHBYTES('SHA2_512',@CurrentPassword + CAST(@Salt as VARCHAR(MAX)));
+
+	IF(@Hash != @CurrentPasswordHash)
+	BEGIN
+		RAISERROR('Mevcut şifrenizi yanlış girdiniz!',16,1);
+		RETURN;
+	END
+
+	--Mevcut şifreyle değiştirmek istedğimiz şifre aynı ise bize hata ver...
+	DECLARE @NewPasswordHash VARBINARY(MAX) = HASHBYTES('SHA2_512',@NewPassword + CAST(@Salt as VARCHAR(MAX)));
+
+	IF (@CurrentPasswordHash = @NewPasswordHash)
+	BEGIN
+		RAISERROR('Değiştirmek istediğiniz şifre mevcut şifre ile aynı!',16,1);
+		RETURN;
+	END
+
+	--Şifre değiştirme işlemi...
+
+	
+
+	UPDATE Logins SET PasswordHash = @NewPasswordHash WHERE Email = @Email
+	PRINT ('Şifreniz başarıyla değiştirildi.')
+
+
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Login]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Login]
+@Email VARCHAR(350),
+@Password VARCHAR(50)
+
+AS
+BEGIN
+	--Kullanıcı maili kontrolü
+	IF NOT EXISTS (Select 1 FROM Logins Where Email = @Email)
+	BEGIN
+		RAISERROR('Mail adresi sistemde bulunamadı.',16,1);
+		RETURN;
+	END
+
+	--Kullanıcı şifrer kontrolü
+	DECLARE @CurrentSalt VARBINARY(MAX) = (SELECT TOP 1 PasswordSalt FROM Logins WHERE Email = @Email)
+	DECLARE @CurrentHash VARBINARY(MAX) = (SELECT TOP 1 PasswordHash FROM Logins WHERE Email = @Email)
+
+	DECLARE @NewHash VARBINARY(MAX) = HASHBYTES('SHA2_512', @Password + CAST(@CurrentSalt as VARCHAR(MAX)));
+
+	IF(@NewHash != @CurrentHash)
+	BEGIN
+		RAISERROR('Şifreniz yanlış.',16,1);
+		RETURN;
+	END
+
+--Kullanıcı aktif mi kontrolü
+	
+	--Giriş işlemi ve token gönderme
+
+	DECLARE @Token VARCHAR(MAX) = NEWID();
+	DECLARE @Message VARCHAR(MAX) = 'Kullanıcı girişi başarılı. Token: ' + @Token;
+		
+		PRINT(@Message);
+END
+GO
+/****** Object:  StoredProcedure [dbo].[Register]    Script Date: 10.10.2023 19:45:33 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE PROCEDURE [dbo].[Register]
+
+@Email VARCHAR(MAX),
+@Name	VARCHAR(MAX),
+@Lastname VARCHAR(MAX),
+@Password VARCHAR(MAX)
+
+AS
+BEGIN
+
+	DECLARE @Salt VARBINARY(MAX);
+	DECLARE @Hash VARBINARY(MAX);
+	
+
+	SET NOCOUNT ON;
+
+	IF EXISTS (Select 1 FROM Logins Where Email = @Email)
+	BEGIN
+		RAISERROR('Bu mail daha önce kullanıldı.',16,1);
+		RETURN;
+	END
+
+	
+	SET @Salt = CRYPT_GEN_RANDOM(128); --acz<cawq12awcawcacaw
+	SET @Hash = HASHBYTES('SHA2_512',@Password + CAST(@Salt as VARCHAR(MAX)));
+
+
+	INSERT INTO Logins 
+				Values(NEWID(),LOWER(@Email),@Name,@Lastname,@Salt,@Hash);
+
+END
+GO
+USE [master]
+GO
+ALTER DATABASE [JobSeekerDb] SET  READ_WRITE 
+GO
